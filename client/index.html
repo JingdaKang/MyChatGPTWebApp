@@ -1,0 +1,49 @@
+<!--
+ * @Author: KJD jingdakang@gmail.com
+ * @Date: 2023-04-30 22:42:44
+ * @LastEditors: KJD jingdakang@gmail.com
+ * @LastEditTime: 2023-05-01 00:09:42
+ * @FilePath: \chatgpt-web-application\client\index.html
+ * @Description: 这是默认设置,请设置`customMade`, 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>ChatGPT Front-end</title>
+    <link rel="stylesheet" href="./assets/css/highlight.min.css">
+    <link rel="stylesheet" href="./assets/css/index.css">
+    <link rel="icon" href="favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description"
+          content="Experience OpenAI API with this simple web application"
+    />
+</head>
+<body>
+<div id="response-list">
+</div>
+<div id="bottom-container">
+    <div id="regenerate-button-container">
+        <button id="regenerate-response-button">
+            Regenerate Response
+        </button>
+    </div>
+    <div id="model-select-container">
+        <label for="model-select">Select model:</label>
+        <select id="model-select">
+            <option value="chatgpt" selected>ChatGPT (Version GPT-3.5 and can understand as well as generate natural language or code)</option>
+            <!-- <option value="gpt">GPT-3 (Understand and generate natural language )</option> -->
+            <option value="image">Create Image (Create AI image using DALL·E models)</option>
+            <option value="whisper">Whisper(AI speech recognition model)</option>
+        </select>
+    </div>
+    <div id="input-container">
+        <input type="file" id="whisper-file" accept=".mp3,.mp4,.mpeg,.mpga,.m4a,.wav,.webm" style="display:none;">
+        <div id="prompt-input" contentEditable></div>
+        <button id="submit-button"></button>
+    </div>
+</div>
+<script src="./assets/js/highlight.min.js"></script>
+<script src="./assets/js/showdown.min.js"></script>
+<script src="./assets/js/index.js"></script>
+</body>
+</html>
