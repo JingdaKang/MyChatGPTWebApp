@@ -57,6 +57,20 @@ app.post('/transcribe', upload.single('audio'), async (req, res) => {
     }
 });
 
+// if (!localStorage.getItem("messages")) {
+//     // If it does not exist, create an array with the initial messages
+//     const iMessages = [
+//       { role: 'system', content: "You are an AI assistant who is helpful, creative, clever, and very friendly. You have access to previous chats and responses. Follow the user\'s instructions carefully. Respond using markdown." }
+      
+//     ];
+
+//     // Store the initial messages in localStorage
+//     localStorage.setItem("messages", JSON.stringify(iMessages));
+//   }
+const historyMessages = [
+    { role: 'system', content: "You are an AI assistant who is helpful, creative, clever, and very friendly. You have access to previous chats and responses. Follow the user\'s instructions carefully. Respond using markdown." }
+    ];
+
 app.post('/get-prompt-result', async (req, res) => {
     // Get the prompt from the request body
     const {prompt, model = 'gpt'} = req.body;
@@ -79,15 +93,28 @@ app.post('/get-prompt-result', async (req, res) => {
             return res.send(result.data.data[0].url);
         }
         if (model === 'chatgpt') {
+
+            historyMessages.push({ role: "user", content: prompt});
+            if (historyMessages.length > 12) {
+                historyMessages.shift();
+            }
+            console.log(historyMessages)
+
             const result = await openai.createChatCompletion({
                 model:"gpt-3.5-turbo",
-                messages: [
-                    { role: "system", content: "You are an AI assistant who is helpful, creative, clever, and very friendly."},
-                    { role: "user", content: prompt }
-                ]
+                messages: historyMessages
             })
+
+            historyMessages.push({ role: "assistant", content: result.data.choices[0]?.message?.content});
+            if (historyMessages.length > 6) {
+                historyMessages.shift();
+            }
+
             return res.send(result.data.choices[0]?.message?.content);
         }
+
+        
+
         // const completion = await openai.createCompletion({
         //     model: 'text-davinci-003', // model name
         //     prompt: `Please reply below question in markdown format.\n ${prompt}`, // input prompt
